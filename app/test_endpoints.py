@@ -7,6 +7,7 @@ from app.main import app, BASE_DIR, UPLOAD_DIR
 
 client = TestClient(app)
 
+
 def test_get_home():
     response = client.get("/")
     assert response.status_code == 200
@@ -17,7 +18,6 @@ def test_post_home():
     response = client.post("/")
     assert response.status_code == 200
     assert "application/json" in response.headers["content-type"]
-
 
 
 def test_post_img_echo():
@@ -40,5 +40,3 @@ def test_post_img_echo():
 
     time.sleep(3)
     shutil.rmtree(UPLOAD_DIR)
-    
-    

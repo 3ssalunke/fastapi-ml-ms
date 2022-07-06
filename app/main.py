@@ -2,7 +2,7 @@ import pathlib
 import io
 import uuid
 from fastapi import (
-    FastAPI, 
+    FastAPI,
     Request,
     File,
     UploadFile,
@@ -18,13 +18,16 @@ UPLOAD_DIR = BASE_DIR / "uploaded"
 app = FastAPI()
 templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
 
+
 @app.get("/", response_class=HTMLResponse)
 def home_view(request: Request):
     return templates.TemplateResponse("home.html", {"request": request})
 
+
 @app.post("/")
 def home_detail_view(request: Request):
     return {"message": "success"}
+
 
 @app.post("/img-echo", response_class=FileResponse)
 async def img_echo_view(file: UploadFile = File(...)):
@@ -40,5 +43,5 @@ async def img_echo_view(file: UploadFile = File(...)):
     # with open(str(dest), 'wb') as out:
     #     out.write(bytes_str.read())
     img.save(dest)
-    
+
     return dest

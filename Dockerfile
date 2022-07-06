@@ -1,22 +1,10 @@
 FROM python:3.8-slim
 
-COPY ./entrypoint.sh /entrypoint.sh
 COPY ./app /app
 COPY ./requirements.txt /requirements.txt
 
-RUN apt-get update && \
-    apt-get install -y \
-        build-essential \
-        python3-dev \
-        python3-setuptools \
-        tesseract-ocr \
-        make \
-        gcc \
-    && python3 -m pip install -r requirements.txt \
-    && apt-get remove -y --purge make gcc build-essential \
-    && apt-get autoremove -y \
-    && rm -rf /var/lib/apt/lists/*
+EXPOSE 8000:8000
 
-RUN chmod +x entrypoint.sh
+RUN python3 -m pip install -r requirements.txt
 
-CMD [ "./entrypoint.sh" ]
+CMD [ "uvicorn", "app.main:app", "--host", "0.0.0.0", "--reload" ]
